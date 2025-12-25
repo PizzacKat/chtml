@@ -1,7 +1,7 @@
-# chtml
-Removed the Markup Language from HTML
-
-It's like HTML, but with CSS syntax
+# CHTML
+Removed the Markup Language from HTML.  
+It's like HTML, but with CSS syntax.  
+Raw text is written in quotation marks.  
 
 ## Normal HTML:
 ```html
@@ -40,8 +40,55 @@ tag[] {}
 tag
 ```
 
+### Example index file (the compiler automatically adds \<!DOCTYPE html\> onto the compiled file):
+```css
+html {
+  head {
+    title { "CHTML" }
+  }
+  body {
+    "I'm made with CHTML!" br
+    div {
+      "Here's a picture of a cat: " img[src="cat.png"]
+    }
+  }
+}
+```
+
+## Comments
+Comments are written by typing an exclamation before a block.  
+
+### Example:
+```
+!{I'm a comment}
+```
+
+## Raw text
+Raw text is typed between quotation marks.
+
+### Example:
+```css
+p {
+  "Hello, world!"
+}
+```
+
+## Multiline text
+Multiline text is typed between 3 quotation marks.
+
+### Example:
+```css
+p {
+  """
+  I am
+  Multiple
+  Lines long
+  """
+}
+```
+
 ## Now with extensions!
-Extensions are a set of conditions, attributes and children. If any element after an extension matches the conditions, it gets added the attributes and children of the extension.
+Extensions are a set of conditions, attributes and children. If any element after an extension matches the conditions, it gets added the attributes and children of the extension.  
 Conditions act against elements.
 
 ### Example:
@@ -79,4 +126,18 @@ An extension may also not have any conditions (even though it's not the intended
 #tag[| attribute...] {
   child...
 }
+```
+
+### Example:
+```css
+!{Apply a certain style to each div with a class of "styled"}
+#div[class+="styled" | style="..."]
+div[class="styled"]
+div[class="styled container"]
+
+!{Give every span with a class of "with-image" an image}
+#div[class+="with-image"] {
+  img[src="..."]
+}
+div[class="with-image"]
 ```
