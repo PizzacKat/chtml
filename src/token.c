@@ -16,3 +16,36 @@ void token_free(token *token) {
             return;
     }
 }
+
+const char *token_type_to_string(token_type type) {
+    switch (type) {
+        case tok_id:
+            return "<identifier>";
+        case tok_lbrack:
+            return "'{'";
+        case tok_rbrack:
+            return "'}'";
+        case tok_lbrace:
+            return "'['";
+        case tok_rbrace:
+            return "']'";
+        case tok_txt:
+            return "<string>";
+        case tok_eq:
+            return "'='";
+        case tok_condeq:
+            return "'=='";
+        case tok_condneq:
+            return "'!='";
+        case tok_condin:
+            return "'+='";
+        case tok_condnin:
+            return "'-='";
+        case tok_comment:
+            return "'!'";
+        case tok_ext:
+            return "'#'";
+        case tok_split:
+            return "'|'";
+    }
+}

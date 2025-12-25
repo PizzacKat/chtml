@@ -8,6 +8,7 @@ typedef struct parser {
     tokenizer *tokenizer;
     int end;
     token curr;
+    char *error;
 } parser;
 
 int parse(tokenizer *tokenizer, parser *parser);

@@ -9,7 +9,13 @@ typedef enum token_type {
     tok_rbrace,
     tok_txt,
     tok_eq,
-    tok_comment
+    tok_condeq,
+    tok_condneq,
+    tok_condin,
+    tok_condnin,
+    tok_comment,
+    tok_ext,
+    tok_split
 } token_type;
 
 typedef struct token {
@@ -22,5 +28,6 @@ typedef struct token {
 } token;
 
 void token_free(token *token);
+const char *token_type_to_string(token_type type);
 
 #endif
