@@ -2,13 +2,20 @@
 #define COMPILER_H
 
 #include "parser.h"
+
+typedef struct scope {
+    struct scope *parent;
+    ext *extensions;
+    int extension_count;
+} scope;
+
 typedef struct compiler {
     parser *parser;
     char *result;
     int ident;
     char *error;
-    ext *extensions;
-    int extension_count;
+    scope global;
+    scope *scope;
 } compiler;
 
 int compile(parser *parser, compiler *compiler);

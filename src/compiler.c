@@ -5,12 +5,30 @@
 #include <stdlib.h>
 #include <string.h>
 
+static inline void scope_create(scope *scope, struct scope *parent) {
+    scope->parent = parent;
+    scope->extensions = NULL;
+    scope->extension_count = 0;
+}
+
+static inline void scope_free(scope *scope) {
+    for (int i = 0; i < scope->extension_count; i++)
+        ext_free(&scope->extensions[i]);
+    free(scope->extensions);
+}
+
+static inline void scope_back(scope **scope) {
+    struct scope *parent = (*scope)->parent;
+    scope_free(*scope);
+    *scope = parent;
+}
+
 int compile(parser *parser, compiler *compiler) {
     compiler->parser = parser;
     compiler->ident = 0;
     compiler->error = NULL;
-    compiler->extensions = NULL;
-    compiler->extension_count = 0;
+    scope_create(&compiler->global, NULL);
+    compiler->scope = &compiler->global;
     compiler->result = malloc(1);
     if (compiler->result == NULL) {
         compiler->error = strdup("Error allocating memory");
@@ -78,7 +96,5 @@ char *compile_code(const char *code, int flags, char **error) {
 void compiler_free(compiler *compiler) {
     free(compiler->result);
     free(compiler->error);
-    for (int i = 0; i < compiler->extension_count; i++)
-        ext_free(&compiler->extensions[i]);
-    free(compiler->extensions);
+    scope_free(&compiler->global);
 }

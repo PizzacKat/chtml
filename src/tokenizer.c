@@ -47,9 +47,9 @@ int tokenize_next(tokenizer *tok, token *nxt) {
     while (isspace(curr(tok)) && next(tok));
     if (curr(tok) == 0)
         return 0;
-    if (isalpha(curr(tok))) {
+    if (isalpha(curr(tok)) || curr(tok) == '_' || curr(tok) == '-') {
         const char *s = tok->curr;
-        while (isalpha(curr(tok)) && next(tok));
+        while ((isalnum(curr(tok)) || curr(tok) == '_' || curr(tok) == '-') && next(tok));
         char *str = malloc(tok->curr - s + 1);
         if (str == NULL) {
             tok->error = strdup("Error allocating memory");
