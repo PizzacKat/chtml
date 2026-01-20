@@ -5,6 +5,8 @@
 
 char *rdfile(const char *file) {
     FILE *f = fopen(file, "r");
+    if (f == NULL)
+        return NULL;
     fseek(f, 0, SEEK_END);
     size_t sz = ftell(f);
     fseek(f, 0, SEEK_SET);
@@ -60,8 +62,12 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Usage: chtml [-o <output file>] <file>\n");
         return 1;
     }
-    char *code = rdfile(argv[1]);
-    char *error;
+    char *code = rdfile(file);
+    if (code == NULL) {
+        printf("Error reading file\n");
+        return 1;
+    }
+    char *error = NULL;
     char *res = compile_code(code, (ignore_comments ? compile_ignore_comments : 0), &error);
     free(code);
     if (res == NULL) {
